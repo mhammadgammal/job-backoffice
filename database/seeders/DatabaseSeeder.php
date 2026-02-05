@@ -24,6 +24,8 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
+        $faker = \Faker\Factory::create();
+
         User::firstOrCreate(['email' => 'admin@admin.com'], [
             'name' => 'Admin',
             'email_verified_at' => now(),
@@ -47,9 +49,9 @@ class DatabaseSeeder extends Seeder
 
             // create owner user for company
             $ownerUser = User::firstOrCreate([
-                'email' => fake()->unique()->safeEmail(),
+                'email' => $faker->unique()->safeEmail(),
             ], [
-                'name' => fake()->name(),
+                'name' => $faker->name(),
                 'password' => Hash::make('12345678'),
                 'role' => 'company-owner',
                 'email_verified_at' => now(),
@@ -86,9 +88,9 @@ class DatabaseSeeder extends Seeder
             $jobVacancy = JobVacancy::inRandomOrder()->first();
 
             $applicant = User::firstOrCreate([
-                'email' => fake()->unique()->safeEmail(),
+                'email' => $faker->unique()->safeEmail(),
             ], [
-                'name' => fake()->name(),
+                'name' => $faker->name(),
                 'password' => Hash::make('12345678'),
                 'role' => 'job-seeker',
                 'email_verified_at' => now(),
