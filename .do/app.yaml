@@ -1,25 +1,17 @@
 name: laravel-app
 services:
   - name: web
-    # Use Docker build
     dockerfile_path: Dockerfile
     source_dir: /
     github:
       repo: mhammadgammal/job-backoffice
       branch: main
       deploy_on_push: true
-    
-    # HTTP configuration
     http_port: 80
-    
-    # Health check
     health_check:
       http_path: /
-    
-    # Instance configuration
     instance_count: 1
     instance_size_slug: basic-xxs
-    
 # Optional: Add a managed database
 # databases:
 #   - name: db
@@ -27,14 +19,12 @@ services:
 #     version: "8"
 #     production: false
 #     cluster_name: laravel-db-cluster
-
 # Optional: Add Redis for caching/sessions
 # databases:
 #   - name: redis
 #     engine: REDIS
 #     version: "7"
 #     production: false
-
 # Optional: Static site for serving assets (if not served by Laravel)
 # static_sites:
 #   - name: assets
