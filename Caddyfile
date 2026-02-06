@@ -3,8 +3,8 @@
     frankenphp
 }
 
-# The domain name of your server
-:80, :443 {
+ # The domain name of your server
+:80, :443, :8080 {
     # Set the webroot to the public/ directory
     root * public/
     

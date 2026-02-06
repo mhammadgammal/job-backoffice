@@ -1,0 +1,94 @@
+name: laravel-app
+services:
+  - name: web
+    # Use Docker build
+    dockerfile_path: Dockerfile
+    source_dir: /
+    github:
+      repo: your-username/your-repo-name
+      branch: main
+      deploy_on_push: true
+    
+    # HTTP configuration
+    http_port: 8080
+    
+    # Health check
+    health_check:
+      http_path: /
+    
+    # Instance configuration
+    instance_count: 1
+    instance_size_slug: basic-xxs
+    
+    # Environment variables
+    envs:
+      - key: APP_NAME
+        value: "Laravel"
+      - key: APP_ENV
+        value: "production"
+      - key: APP_KEY
+        scope: RUN_AND_BUILD_TIME
+        type: SECRET
+        # Generate with: php artisan key:generate --show
+        value: "base64:YOUR_APP_KEY_HERE"
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_URL
+        value: "${APP_URL}"
+      - key: LOG_CHANNEL
+        value: "stack"
+      - key: LOG_LEVEL
+        value: "error"
+      
+      # Database configuration (if using DigitalOcean managed database)
+      - key: DB_CONNECTION
+        value: "mysql"
+      - key: DB_HOST
+        scope: RUN_TIME
+        value: "${db.HOSTNAME}"
+      - key: DB_PORT
+        scope: RUN_TIME
+        value: "${db.PORT}"
+      - key: DB_DATABASE
+        scope: RUN_TIME
+        value: "${db.DATABASE}"
+      - key: DB_USERNAME
+        scope: RUN_TIME
+        value: "${db.USERNAME}"
+      - key: DB_PASSWORD
+        scope: RUN_TIME
+        type: SECRET
+        value: "${db.PASSWORD}"
+      
+      # Cache & Session (using database driver by default)
+      - key: CACHE_DRIVER
+        value: "file"
+      - key: QUEUE_CONNECTION
+        value: "sync"
+      - key: SESSION_DRIVER
+        value: "file"
+      - key: SESSION_LIFETIME
+        value: "120"
+
+# Optional: Add a managed database
+# databases:
+#   - name: db
+#     engine: MYSQL
+#     version: "8"
+#     production: false
+#     cluster_name: laravel-db-cluster
+
+# Optional: Add Redis for caching/sessions
+# databases:
+#   - name: redis
+#     engine: REDIS
+#     version: "7"
+#     production: false
+
+# Optional: Static site for serving assets (if not served by Laravel)
+# static_sites:
+#   - name: assets
+#     source_dir: public
+#     output_dir: /
+#     routes:
+#       - path: /assets
