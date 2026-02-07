@@ -1,17 +1,19 @@
-name: laravel-app
+name: shaghal-backoffice
+region: nyc # or your preferred region
 services:
   - name: web
-    dockerfile_path: Dockerfile
-    source_dir: /
+    dockerfile_path: Dockerfile # Points to your root Dockerfile
     github:
       repo: mhammadgammal/job-backoffice
-      branch: main
+      branch: master
       deploy_on_push: true
-    http_port: 80
-    health_check:
-      http_path: /
+    http_port: 80 # Match this to your Docker EXPOSE port
     instance_count: 1
     instance_size_slug: basic-xxs
+    envs:
+      - key: APP_ENV
+        scope: RUN_TIME
+        value: production
 # Optional: Add a managed database
 # databases:
 #   - name: db
